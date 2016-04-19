@@ -11,7 +11,7 @@ class ThreadedTicketClient implements Runnable {
 	String threadname = "X";
 	TicketClient sc;
 	String SeatLetter[] =new  String[]{"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","AA"};
-	String booth[] = {"Ticketbooth A", "Ticketbooth B"};
+	String booth[] = {"Box Office A:", "Box Office B:"};
 
 	public ThreadedTicketClient(TicketClient sc, String hostname, String threadname) {
 		this.sc = sc;
@@ -27,7 +27,6 @@ class ThreadedTicketClient implements Runnable {
 			new PrintWriter(echoSocket.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
 			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-			/////////////////////////////////////////////////////////////////////////////
 			out.println(thread);
 			String result = in.readLine();
 			if(result.equals("NA")){
@@ -38,7 +37,7 @@ class ThreadedTicketClient implements Runnable {
 				String results[] = result.split(" ");
 				int x1 = Integer.parseInt(results[0]);
 				int x2 = Integer.parseInt(results[1]);
-				System.out.println(booth[thread-1] +" purchased Seat " + SeatLetter[x2]+ (x1+100));
+				System.out.println(booth[thread-1] +" reserved Seat " + SeatLetter[x2]+ (x1+100));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -115,38 +114,3 @@ public class TicketClient {
 
 
 
-//tc.run(thread);
-/*while(!test.soldout)
-{
-	Random num = new Random();
-	int line = num.nextInt(900)+100;
-	boolean success = false;
-	for(int i = 0;i<line;i++){
-		while(!success)
-		{
-			Seat seat = test.bestavailableSeat();
-			if(seat.x1 !=-1)
-			{
-				String out = SeatLetter[seat.x2];
-				if (test.purchaseSeat(seat, thread)) {
-					System.out.println(threadName + ": Reserved Seat " + out+ seat.x1);
-				} else {
-					System.out.println(threadName + ": Failed to reserve Seat " + out+ seat.x1 );
-				}	
-			}
-			else{
-				test.soldout = true;
-				break;
-			}	
-			if(test.soldout==true)
-			{
-				break;
-			}
-		}
-	}
-}
-if (!test.output) {
-	System.out.println("Tickets are gone, sorry!");
-	test.output = true;
-}*/
-////////////////////////////////////////////////////////////////////////////

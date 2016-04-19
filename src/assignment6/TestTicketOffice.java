@@ -74,6 +74,5 @@ public class TestTicketOffice {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		System.out.println("We're done!");
 	}
 }

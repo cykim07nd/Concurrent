@@ -54,7 +54,7 @@ class ThreadedTicketServer implements Runnable {
 						out.println("NA");
 						if(!soldprint){
 							success = true;
-							System.out.println("I'm sorry, we're sold out!");
+							System.out.println("Sorry, we're sold out!");
 							soldprint = true;
 						}
 					}
