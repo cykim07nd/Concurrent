@@ -1,3 +1,9 @@
+/*Chan-Young Kim, Seungjun Han
+ * EE422C
+ * ck23586, sh36992
+ * Group # 34
+ */
+
 package assignment6;
 
 import static org.junit.Assert.fail;
@@ -50,13 +56,13 @@ public class TestTicketOffice {
 	@Test
 	public void twoConcurrentServerTest() {
 		try {
-			TicketServer.start(16792);
+			TicketServer.start(16792);				//initialize server
 		} catch (Exception e) {
 			fail();
 		}
-		final TicketClient c1 = new TicketClient("Ticket Office A");
+		final TicketClient c1 = new TicketClient("Ticket Office A");	//initialize the threads
 		final TicketClient c2 = new TicketClient("Ticket Office B");
-		Thread t1 = new Thread() {
+		Thread t1 = new Thread() {										//define run for both threads
 			public void run() {
 				c1.requestTicket2(1);
 			}
@@ -66,10 +72,10 @@ public class TestTicketOffice {
 				c2.requestTicket2(2);		
 			}
 		};
-			t1.start();
+			t1.start();												//begin the two threads
 			t2.start();
 			try {
-				t1.join();
+				t1.join();											//bring them together
 				t2.join();
 			} catch (Exception e) {
 				e.printStackTrace();

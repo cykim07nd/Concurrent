@@ -1,3 +1,10 @@
+/*Chan-Young Kim, Seungjun Han
+ * EE422C
+ * ck23586, sh36992
+ * Group # 34
+ */
+
+
 package assignment6;
 
 import java.io.BufferedReader;
@@ -19,7 +26,7 @@ class ThreadedTicketClient implements Runnable {
 		this.threadname = threadname;
 	}
 
-	public boolean run2(int thread) {
+	public boolean run(int thread) {
 		System.out.flush();
 		try {
 			Socket echoSocket = new Socket(hostname, TicketServer.PORT);
@@ -27,17 +34,19 @@ class ThreadedTicketClient implements Runnable {
 			new PrintWriter(echoSocket.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
 			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-			out.println(thread);
-			String result = in.readLine();
-			if(result.equals("NA")){
-				echoSocket.close();
+			out.println(thread); 					//send request for purchase of the best seat to server
+			String result = in.readLine();			//result retrieved
+			if(result.equals("NA")){				//if NA is receieved, no seats left, return false
+				echoSocket.close();					
 				return false;
 			}
 			else{
-				String results[] = result.split(" ");
+				String results[] = result.split(" ");	//the server has returned the seat it purchased let's print it out
 				int x1 = Integer.parseInt(results[0]);
 				int x2 = Integer.parseInt(results[1]);
-				System.out.println(booth[thread-1] +" reserved Seat " + SeatLetter[x2]+ (x1+100));
+				System.out.println(booth[thread-1] +" reserved Seat " + SeatLetter[x2]+ (x1+101));
+				echoSocket.close();
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -53,7 +62,6 @@ class ThreadedTicketClient implements Runnable {
 			new PrintWriter(echoSocket.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
 			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-			/////////////////////////////////////////////////////////////////////////////
 	echoSocket.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,13 +98,13 @@ public class TicketClient {
 	
 	void requestTicket2(int thread) {
 		// TODO thread.run()
-		boolean tickets_left = true;
-		while(tickets_left){
+		boolean tickets_left = true;		//we assume that there are tickets left
+		while(tickets_left){				
 			Random number = new Random();
-			int count = number.nextInt(900)+100;
+			int count = number.nextInt(900)+100;		//generate a line between 100~1000
 			for(int i =0; i<count ;i++){
-				tickets_left = tc.run2(thread);
-				if(!tickets_left){
+				tickets_left = tc.run(thread);			//run the thread and if there are no tickets left, it should set tickets left to false
+				if(!tickets_left){						//if there are no tickets left, exit the loop
 					break;
 				}
 			}
